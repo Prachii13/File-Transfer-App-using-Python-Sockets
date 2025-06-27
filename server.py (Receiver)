@@ -1,0 +1,29 @@
+import socket
+import os
+
+HOST = '0.0.0.0'
+PORT = 9999
+SAVE_FOLDER = 'received'
+
+os.makedirs(SAVE_FOLDER, exist_ok=True)
+
+server = socket.socket()
+server.bind((HOST, PORT))
+server.listen(1)
+print(f"🖥️ Server is listening on {HOST}:{PORT}...")
+
+conn, addr = server.accept()
+print(f"🔗 Connected by {addr}")
+
+filename = conn.recv(1024).decode()
+print(f"📥 Receiving file: {filename}")
+with open(os.path.join(SAVE_FOLDER, filename), 'wb') as f:
+    while True:
+        data = conn.recv(1024)
+        if not data:
+            break
+        f.write(data)
+
+print("✅ File received successfully.")
+conn.close()
+server.close()
