@@ -1,0 +1,22 @@
+import socket
+import os
+
+SERVER_IP = input("Enter server IP address: ")
+PORT = 9999
+FILE_PATH = input("Enter full file path to send: ")
+
+client = socket.socket()
+client.connect((SERVER_IP, PORT))
+
+filename = os.path.basename(FILE_PATH)
+client.send(filename.encode())
+
+with open(FILE_PATH, 'rb') as f:
+    while True:
+        data = f.read(1024)
+        if not data:
+            break
+        client.send(data)
+
+print("✅ File sent successfully.")
+client.close()
