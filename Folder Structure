@@ -1,0 +1,9 @@
+file-transfer-app/
+├── server.py
+├── client.py
+├── files/
+│   └── sample.txt (file to be sent)
+├── received/
+│   └── (where received files are stored)
+├── requirements.txt
+└── README.md
